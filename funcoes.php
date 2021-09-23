@@ -17,7 +17,7 @@
 
     function realizarLogin($usuario, $senha, $dados){
         foreach ($dados as $dado) {
-            if ($dado->usuario == $usuario && $dado->senha == $senha) {
+             if ($dado->usuario == $usuario && $dado->senha == $senha) {
                
                 //Variáveis de sessão
                 $_SESSION["usuario"] = $dado->usuario;
@@ -26,11 +26,31 @@
 
             header('location: area_restrita.php');
             exit;
-
-            } else {
-                header('location: index.php');
-                exit;
-            }
-            
+            } 
         }
+
+        header('location: index.php');
     }
+
+
+    //Função de verificação de login:
+        //verifica se o usuário passou pelo processo de login    
+    function verificarLogin(){
+
+        if($_SESSION["id"] != session_id() || (empty($_SESSION["id"]))){
+            header('location: index.php');
+        }
+
+    }
+
+
+    //Função de finalização de login:
+        //efetua a ação de sair do usuário destruindo a sessão
+    function finalizarLogin(){
+        session_unset(); //limpa todas as variáveis de sessão
+        session_destroy(); //destroi a sessão ativa
+
+        header('location: index.php');
+    }
+
+
